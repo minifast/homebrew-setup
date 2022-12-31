@@ -15,7 +15,9 @@ Most of the time, you'll be following setup steps after you're added to the Gith
     $ brew bundle
     ```
 
-Some text will show up for the party, and then you'll have a configured machine!
+Some text will show up for the party, you'll probably enter your password, and then you'll have a configured machine!
+
+3. Install Oh My Zsh from [https://ohmyz.sh](https://ohmyz.sh).
 
 
 ## How do I install these formulae as one-offs?

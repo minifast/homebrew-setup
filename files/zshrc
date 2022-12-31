@@ -1,0 +1,8 @@
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR="vim"
+else
+  export BUNDLER_EDITOR="subl"
+  export EDITOR="vim"
+fi
+
+eval "$(starship init zsh)"

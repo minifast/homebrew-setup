@@ -1,0 +1,141 @@
+command_timeout = 1000
+format = """
+$time\
+$username\
+$shlvl\
+$kubernetes\
+$red\
+$ruby\
+${custom.rbenv_gemset}\
+$hostname\
+$directory\
+$vcsh\
+$hg_branch\
+$docker_context\
+$package\
+$cmake\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$helm\
+$java\
+$julia\
+$kotlin\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$purescript\
+$python\
+$rust\
+$scala\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$zig\
+$nix_shell\
+$conda\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$env_var\
+$crystal\
+$custom\
+$cmd_duration\
+$line_break\
+${custom.git_author}\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+${custom.git_dirty}\
+${custom.git_clean}\
+$lua\
+$jobs\
+$battery\
+$status\
+$shell\
+$character"""
+
+[battery]
+disabled = true
+
+[time]
+disabled = false
+format = "[$time ⌚]($style) "
+style = "bold cyan"
+time_format = "%F %T"
+
+[nodejs]
+disabled = true
+
+[hostname]
+disabled = false
+ssh_only = false
+style = "purple"
+
+[ruby]
+symbol = ""
+format = "[$symbol($version )]($style)"
+style = "yellow"
+version_format = "$raw"
+
+[directory]
+style = "green"
+truncate_to_repo = false
+truncation_length = 4
+
+[git_branch]
+symbol = ""
+format = "[$symbol$branch( → $remote_name)]($style) "
+style = "green"
+always_show_remote = true
+
+[git_status]
+format = "([$ahead_behind$all_status]($style))"
+style = "green"
+untracked = "?:$count "
+staged = "S:$count "
+stashed = "{$count} "
+modified = "U:$count "
+deleted = "D:$count "
+renamed = "R:$count "
+conflicted = "C:$count "
+ahead = "↑${count} "
+diverged = "↑${ahead_count} ↓${behind_count} "
+behind = "↓${count} "
+
+[custom.git_dirty]
+when = "git status --porcelain 2> /dev/null | tail -n1 | grep ."
+symbol = "✗ "
+style = "red"
+description = "Displays an icon if the repo is dirty."
+
+[custom.git_clean]
+when = "! git status --porcelain 2> /dev/null | tail -n1 | grep ."
+symbol = "✓ "
+style = "green"
+description = "Displays an icon if the repo is clean."
+
+[custom.rbenv_gemset]
+when = "rbenv local && rbenv gemset active"
+command = "rbenv gemset active | sed 's% %+%'"
+files = [".rbenv-gemset"]
+symbol = "@ "
+style = "yellow"
+description = "Displays the current rbenv gemset."
+format = "[$symbol($output )]($style)"
+
+[custom.git_author]
+command = "git config user.initials | sed 's% %+%'"
+when = "git config user.initials"
+style = "bold cyan"
+symbol = "± "
+description = "Displays the initials of the current git pair."
