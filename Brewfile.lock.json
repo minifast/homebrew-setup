@@ -453,6 +453,10 @@
       "minifast/setup/menu-clock-format": {
         "version": "1.0.0",
         "bottle": false
+      },
+      "git-duet/tap/git-duet": {
+        "version": "0.9.0",
+        "bottle": false
       }
     },
     "cask": {
@@ -562,6 +566,12 @@
         "version": "1.0.0",
         "options": {
           "full_name": "minifast/setup/zsh-config"
+        }
+      },
+      "git-duet-config": {
+        "version": "1.0.0",
+        "options": {
+          "full_name": "minifast/setup/git-duet-config"
         }
       }
     }
