@@ -5,13 +5,13 @@ Most of the time, you'll be following setup steps after you're added to the Gith
 1. Clone this repository:
 
     ```bash
-    $ git clone https://github.com/minifast/setup
+    $ git clone https://github.com/minifast/homebrew-setup
     ```
 
 2. Install dependencies using Homebrew:
 
     ```bash
-    $ cd setup
+    $ cd homebrew-setup
     $ brew bundle
     ```
 
