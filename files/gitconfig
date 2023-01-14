@@ -8,6 +8,7 @@
   lw = log --decorate=short --graph --color-words -w --find-renames=50%
   st = status
   su = submodule update --init --recursive
+  co = checkout
 
 [diff]
   wordRegex = [^=.,()[:space:]\"]+
