@@ -1,9 +1,7 @@
 tap "git-duet/tap"
 tap "heroku/brew"
 tap "homebrew/bundle"
-tap "homebrew/cask"
 tap "homebrew/cask-fonts"
-tap "homebrew/core"
 tap "homebrew/services"
 tap "minifast/setup", "git@github.com:minifast/homebrew-setup.git"
 
