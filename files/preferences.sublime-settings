@@ -63,5 +63,10 @@
     "*.swf",
     "*.jar",
     "*.zip"
-  ]
+  ],
+  "ignored_packages":
+  [
+    "Vintage",
+  ],
+  "index_files": true,
 }
