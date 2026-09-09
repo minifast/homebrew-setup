@@ -6,7 +6,7 @@ brew "ack"
 brew "asdf"
 brew "awscli"
 brew "htop"
-brew "postgresql@14", restart_service: true
+brew "postgresql@18", restart_service: true
 brew "redis", restart_service: true
 brew "starship"
 brew "vips"

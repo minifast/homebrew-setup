@@ -14,7 +14,7 @@ cask "inputrc" do
     FileUtils.ln_s staged_path.join('inputrc'), home_dir.join('.inputrc'), force: true
   end
 
-  uninstall_preflight do
+  uninstall_preflight_steps do
     home_dir = Pathname.new(Dir.home)
     FileUtils.rm home_dir.join('.inputrc')
   end

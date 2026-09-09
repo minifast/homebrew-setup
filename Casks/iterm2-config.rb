@@ -15,7 +15,7 @@ cask "iterm2-config" do
     FileUtils.ln_s staged_path.join('iterm2.plist'), preferences_dir.join('com.googlecode.iterm2.plist'), force: true
   end
 
-  uninstall_preflight do
+  uninstall_preflight_steps do
     preferences_dir = Pathname.new(Dir.home).join("Library").join("Preferences")
     FileUtils.rm preferences_dir.join('com.googlecode.iterm2.plist')
   end

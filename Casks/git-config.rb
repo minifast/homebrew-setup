@@ -18,7 +18,7 @@ cask "git-config" do
     home_dir.join('.gitconfig').write(git_config.join("\n"))
   end
 
-  uninstall_preflight do
+  uninstall_preflight_steps do
     home_dir = Pathname.new(Dir.home)
     git_config = home_dir.join('.gitconfig').read.split("\n")
     git_config -= ["\tpath = #{staged_path.join('gitconfig')}"]

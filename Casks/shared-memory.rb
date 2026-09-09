@@ -16,7 +16,7 @@ cask "shared-memory" do
     system "sudo", "launchctl", "load", "/Library/LaunchDaemons/shared-memory.plist"
   end
 
-  uninstall_preflight do
+  uninstall_preflight_steps do
     launch_daemon_dir = Pathname.new("/Library/LaunchDaemons")
     system "sudo", "launchctl", "unload", "/Library/LaunchDaemons/shared-memory.plist"
     system "sudo", "rm", launch_daemon_dir.join('shared-memory.plist')

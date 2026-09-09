@@ -17,7 +17,7 @@ cask "zsh-config" do
     home_dir.join('.zshrc').write(git_config.join("\n"))
   end
 
-  uninstall_preflight do
+  uninstall_preflight_steps do
     home_dir = Pathname.new(Dir.home)
     git_config = home_dir.join('.zshrc').read.split("\n")
     git_config -= ["source #{staged_path.join('zshrc')}"]
