@@ -12,7 +12,7 @@ cask "sublime-text-config" do
   preflight_steps do
     sublime_dir = Pathname.new(Dir.home).join("Library/Application Support/Sublime Text/Packages/User")
     sublime_dir.mkpath
-    FileUtils.ln_s staged_path.join('preferences.sublime-settings'), sublime_dir.join('Preferences.sublime-settings'), force: true
+    FileUtils.ln_s "{{staged_path}}/preferences.sublime-settings", sublime_dir.join('Preferences.sublime-settings'), force: true
   end
 
   uninstall_preflight_steps do

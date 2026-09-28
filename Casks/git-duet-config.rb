@@ -11,7 +11,7 @@ cask "git-duet-config" do
 
   preflight_steps do
     home_dir = Pathname.new(Dir.home)
-    FileUtils.cp staged_path.join('git-authors'), home_dir.join('.git-authors')
+    FileUtils.cp "{{staged_path}}/git-authors", home_dir.join('.git-authors')
   end
 
   uninstall_preflight_steps do

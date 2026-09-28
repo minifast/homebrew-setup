@@ -14,14 +14,14 @@ cask "git-config" do
     FileUtils.touch home_dir.join('.gitconfig')
     git_config = home_dir.join('.gitconfig').read.split("\n")
     git_config << '[include]' if git_config.index('[include]').nil?
-    git_config.insert git_config.index('[include]') + 1, "\tpath = #{staged_path.join('gitconfig')}"
+    git_config.insert git_config.index('[include]') + 1, "\tpath = {{staged_path}}/gitconfig}"
     home_dir.join('.gitconfig').write(git_config.join("\n"))
   end
 
   uninstall_preflight_steps do
     home_dir = Pathname.new(Dir.home)
     git_config = home_dir.join('.gitconfig').read.split("\n")
-    git_config -= ["\tpath = #{staged_path.join('gitconfig')}"]
+    git_config -= ["\tpath = {{staged_path}}/gitconfig}"]
     home_dir.join('.gitconfig').write(git_config.join("\n"))
   end
 end

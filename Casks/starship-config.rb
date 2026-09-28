@@ -12,7 +12,7 @@ cask "starship-config" do
   preflight_steps do
     config_dir = Pathname.new(Dir.home).join('.config')
     config_dir.mkpath
-    FileUtils.ln_s staged_path.join('starship.toml'), config_dir.join('starship.toml'), force: true
+    FileUtils.ln_s "{{staged_path}}/starship.toml", config_dir.join('starship.toml'), force: true
   end
 
   uninstall_preflight_steps do

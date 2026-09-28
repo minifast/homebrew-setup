@@ -13,14 +13,14 @@ cask "zsh-config" do
     home_dir = Pathname.new(Dir.home)
     FileUtils.touch home_dir.join('.zshrc')
     git_config = home_dir.join('.zshrc').read.split("\n")
-    git_config << "source #{staged_path.join('zshrc')}"
+    git_config << "source {{staged_path}}/zshrc"
     home_dir.join('.zshrc').write(git_config.join("\n"))
   end
 
   uninstall_preflight_steps do
     home_dir = Pathname.new(Dir.home)
     git_config = home_dir.join('.zshrc').read.split("\n")
-    git_config -= ["source #{staged_path.join('zshrc')}"]
+    git_config -= ["source {{staged_path}}/zshrc"]
     home_dir.join('.zshrc').write(git_config.join("\n"))
   end
 end
