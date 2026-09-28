@@ -9,7 +9,7 @@ cask "sublime-text-config" do
 
   stage_only true
 
-  preflight do
+  preflight_steps do
     sublime_dir = Pathname.new(Dir.home).join("Library/Application Support/Sublime Text/Packages/User")
     sublime_dir.mkpath
     FileUtils.ln_s staged_path.join('preferences.sublime-settings'), sublime_dir.join('Preferences.sublime-settings'), force: true

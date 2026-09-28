@@ -9,7 +9,7 @@ cask "zsh-config" do
 
   stage_only true
 
-  preflight do
+  preflight_steps do
     home_dir = Pathname.new(Dir.home)
     FileUtils.touch home_dir.join('.zshrc')
     git_config = home_dir.join('.zshrc').read.split("\n")

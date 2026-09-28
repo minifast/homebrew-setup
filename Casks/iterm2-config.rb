@@ -9,7 +9,7 @@ cask "iterm2-config" do
 
   stage_only true
 
-  preflight do
+  preflight_steps do
     preferences_dir = Pathname.new(Dir.home).join("Library").join("Preferences")
     preferences_dir.mkpath
     FileUtils.ln_s staged_path.join('iterm2.plist'), preferences_dir.join('com.googlecode.iterm2.plist'), force: true

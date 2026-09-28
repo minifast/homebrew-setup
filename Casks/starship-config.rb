@@ -9,7 +9,7 @@ cask "starship-config" do
 
   stage_only true
 
-  preflight do
+  preflight_steps do
     config_dir = Pathname.new(Dir.home).join('.config')
     config_dir.mkpath
     FileUtils.ln_s staged_path.join('starship.toml'), config_dir.join('starship.toml'), force: true

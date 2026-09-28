@@ -9,7 +9,7 @@ cask "shared-memory" do
 
   stage_only true
 
-  preflight do
+  preflight_steps do
     launch_daemon_dir = Pathname.new("/Library/LaunchDaemons")
     system "sudo", "ln", "-s", staged_path.join('shared-memory.plist'), launch_daemon_dir.join('shared-memory.plist')
     system "sudo", "chown", "root:wheel", launch_daemon_dir.join('shared-memory.plist')

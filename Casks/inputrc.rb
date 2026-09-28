@@ -9,7 +9,7 @@ cask "inputrc" do
 
   stage_only true
 
-  preflight do
+  preflight_steps do
     home_dir = Pathname.new(Dir.home)
     FileUtils.ln_s staged_path.join('inputrc'), home_dir.join('.inputrc'), force: true
   end
