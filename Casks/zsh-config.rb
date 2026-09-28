@@ -10,17 +10,12 @@ cask "zsh-config" do
   stage_only true
 
   preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.touch home_dir.join('.zshrc')
-    git_config = home_dir.join('.zshrc').read.split("\n")
-    git_config << "source {{staged_path}}/zshrc"
-    home_dir.join('.zshrc').write(git_config.join("\n"))
+    symlink "zshrc", ".zshrc.minifast", source_base: :source_base, target_base: :user
+    write_file ".zshrc", "source .zshrc.minifast", base: :user, overwrite: false, append_newline: true
   end
 
   uninstall_preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    git_config = home_dir.join('.zshrc').read.split("\n")
-    git_config -= ["source {{staged_path}}/zshrc"]
-    home_dir.join('.zshrc').write(git_config.join("\n"))
+    inreplace ".zshrc", "source .zshrc.minifast\n", ""
+    remove "{{user}}/.zshrc.minifast"
   end
 end

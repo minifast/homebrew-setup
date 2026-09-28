@@ -10,18 +10,12 @@ cask "git-config" do
   stage_only true
 
   preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.touch home_dir.join('.gitconfig')
-    git_config = home_dir.join('.gitconfig').read.split("\n")
-    git_config << '[include]' if git_config.index('[include]').nil?
-    git_config.insert git_config.index('[include]') + 1, "\tpath = {{staged_path}}/gitconfig}"
-    home_dir.join('.gitconfig').write(git_config.join("\n"))
+    symlink "gitconfig", ".gitconfig.minifast", source_base: :source_base, target_base: :user
+    run "git", args: ["config", "set", "--global", "include.path", "{{user}}/.gitconfig.minifast"]
   end
 
   uninstall_preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    git_config = home_dir.join('.gitconfig').read.split("\n")
-    git_config -= ["\tpath = {{staged_path}}/gitconfig}"]
-    home_dir.join('.gitconfig').write(git_config.join("\n"))
+    run "git", args: ["config", "unset", "--global", "include.path"]
+    remove "{{user}}/.gitconfig.minifast"
   end
 end

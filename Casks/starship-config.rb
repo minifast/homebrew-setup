@@ -10,13 +10,11 @@ cask "starship-config" do
   stage_only true
 
   preflight_steps do
-    config_dir = Pathname.new(Dir.home).join('.config')
-    config_dir.mkpath
-    FileUtils.ln_s "{{staged_path}}/starship.toml", config_dir.join('starship.toml'), force: true
+    mkdir_p ".config", base: :user
+    symlink "starship.toml", ".config/starship.toml", source_base: :source_base, target_base: :user
   end
 
   uninstall_preflight_steps do
-    config_dir = Pathname.new(Dir.home).join('.config')
-    FileUtils.rm config_dir.join('starship.toml')
+    remove "{{user}}/.config/starship.toml"
   end
 end

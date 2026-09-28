@@ -10,13 +10,10 @@ cask "iterm2-config" do
   stage_only true
 
   preflight_steps do
-    preferences_dir = Pathname.new(Dir.home).join("Library").join("Preferences")
-    preferences_dir.mkpath
-    FileUtils.ln_s "{{staged_path}}/iterm2.plist", preferences_dir.join('com.googlecode.iterm2.plist'), force: true
+    symlink "iterm2.plist", "Library/Preferences/com.googlecode.iterm2.plist", source_base: :source_base, target_base: :user
   end
 
   uninstall_preflight_steps do
-    preferences_dir = Pathname.new(Dir.home).join("Library").join("Preferences")
-    FileUtils.rm preferences_dir.join('com.googlecode.iterm2.plist')
+    remove "{{user}}/Library/Preferences/com.googlecode.iterm2.plist"
   end
 end

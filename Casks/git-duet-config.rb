@@ -10,12 +10,10 @@ cask "git-duet-config" do
   stage_only true
 
   preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.cp "{{staged_path}}/git-authors", home_dir.join('.git-authors')
+    symlink "git-authors", ".authors", source_base: :source_base, target_base: :user
   end
 
   uninstall_preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.rm home_dir.join('.git-authors')
+    remove "{{user}}/.git-authors"
   end
 end

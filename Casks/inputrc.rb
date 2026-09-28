@@ -10,12 +10,10 @@ cask "inputrc" do
   stage_only true
 
   preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.ln_s "{{staged_path}}/inputrc", home_dir.join('.inputrc'), force: true
+    symlink "inputrc", ".inputrc", source_base: :source_base, target_base: :user
   end
 
   uninstall_preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.rm home_dir.join('.inputrc')
+    remove "{{user}}/.inputrc"
   end
 end

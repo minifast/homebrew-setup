@@ -10,15 +10,13 @@ cask "shared-memory" do
   stage_only true
 
   preflight_steps do
-    launch_daemon_dir = Pathname.new("/Library/LaunchDaemons")
-    run "sudo", args: ["ln", "-s", "{{staged_path}}/shared-memory.plist", launch_daemon_dir.join('shared-memory.plist')]
-    run "sudo", args: ["chown", "root:wheel", launch_daemon_dir.join('shared-memory.plist')]
+    symlink "shared-memory.plist", "shared-memory.plist", source_base: :source_base, target_base: "/Library/LaunchDaemons"
+    set_ownership "shared-memory.plist", user: "root", group: "wheel", base: "/Library/LaunchDaemons"
     run "sudo", args: ["launchctl", "load", "/Library/LaunchDaemons/shared-memory.plist"]
   end
 
   uninstall_preflight_steps do
-    launch_daemon_dir = Pathname.new("/Library/LaunchDaemons")
     run "sudo", args: ["launchctl", "unload", "/Library/LaunchDaemons/shared-memory.plist"]
-    run "sudo", args: ["rm", launch_daemon_dir.join('shared-memory.plist')]
+    remove "shared-memory.plist", base: "/Library/LaunchDaemons"
   end
 end

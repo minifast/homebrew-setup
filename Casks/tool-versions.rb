@@ -10,12 +10,10 @@ cask "tool-versions" do
   stage_only true
 
   preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.ln_s "{{staged_path}}/tool-versions", home_dir.join('.tool-versions'), force: true
+    symlink "tool-versions", ".tool-versions", source_base: :source_base, target_base: :user
   end
 
   uninstall_preflight_steps do
-    home_dir = Pathname.new(Dir.home)
-    FileUtils.rm home_dir.join('.tool-versions')
+    remove ".tool-versions", base: :user
   end
 end
