@@ -7,13 +7,18 @@ cask "git-config" do
   desc "Configure git"
   homepage ""
 
-  preflight_steps do
-    symlink "gitconfig", "~/.gitconfig.minifast", source_base: :staged_path, remove_on_uninstall: true
-  end
-
   generated_script "installer.sh", content: <<~SH
     #!/bin/sh
+    ln -sf "#{staged_path}/gitconfig" ~/.gitconfig.minifast
     git config set --global include.path ~/.gitconfig.minifast
   SH
+
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    rm -f ~/.gitconfig.minifast
+    git config unset --global include.path
+  SH
+
   installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end

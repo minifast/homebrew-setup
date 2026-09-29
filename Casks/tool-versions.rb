@@ -7,9 +7,16 @@ cask "tool-versions" do
   desc "Configure asdf .tool-versions file"
   homepage ""
 
-  stage_only true
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    ln -sf "#{staged_path}/tool-versions" ~/.tool-versions
+  SH
 
-  preflight_steps do
-    symlink "tool-versions", "~/.tool-versions", source_base: :staged_path, remove_on_uninstall: true
-  end
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    rm -f ~/.tool-versions
+  SH
+
+  installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end

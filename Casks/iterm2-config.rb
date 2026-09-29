@@ -7,9 +7,16 @@ cask "iterm2-config" do
   desc "Configure iTerm2"
   homepage ""
 
-  stage_only true
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    ln -sf "#{staged_path}/iterm2.plist" ~/Library/Preferences/com.googlecode.iterm2.plist
+  SH
 
-  preflight_steps do
-    symlink "iterm2.plist", "~/Library/Preferences/com.googlecode.iterm2.plist", source_base: :staged_path, remove_on_uninstall: true
-  end
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    rm f- ~/Library/Preferences/com.googlecode.iterm2.plist
+  SH
+
+  installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end

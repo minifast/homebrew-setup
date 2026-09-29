@@ -7,10 +7,17 @@ cask "sublime-text-config" do
   desc "Configure Sublime Text"
   homepage ""
 
-  stage_only true
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    mkdir -p ~/Library/Application\\ Support/Sublime\\ Text/Packages/User
+    cp "#{staged_path}/preferences.sublime-settings" ~/Library/Application\\ Support/Sublime\\ Text/Packages/User/Preferences.sublime-settings
+  SH
 
-  preflight_steps do
-    mkdir_p "~/Library/Application Support/Sublime Text/Packages/User"
-    symlink "preferences.sublime-settings", "~/Library/Application Support/Sublime Text/Packages/User/preferences.sublime-settings", source_base: :staged_path, remove_on_uninstall: true
-  end
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    rm -f ~/Library/Application\\ Support/Sublime\\ Text/Packages/User/Preferences.sublime-settings
+  SH
+
+  installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end

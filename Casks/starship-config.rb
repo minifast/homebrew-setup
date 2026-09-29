@@ -7,10 +7,17 @@ cask "starship-config" do
   desc "Configure the default Starship prompt"
   homepage ""
 
-  stage_only true
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    mkdir -p ~/.config
+    ln -sf "#{staged_path}/starship.toml" ~/.config/starship.toml
+  SH
 
-  preflight_steps do
-    mkdir_p "~/.config"
-    symlink "starship.toml", "~/.config/starship.toml", source_base: :staged_path, remove_on_uninstall: true
-  end
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    rm -f ~/.config/starship.toml
+  SH
+
+  installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end

@@ -7,9 +7,16 @@ cask "git-duet-config" do
   desc "Configure git-duet"
   homepage ""
 
-  stage_only true
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    ln -sf "#{staged_path}/git-authors" ~/.git-authors
+  SH
 
-  preflight_steps do
-    symlink "git-authors", "~/.git-authors", source_base: :staged_path, remove_on_uninstall: true
-  end
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    rm -f ~/.git-authors
+  SH
+
+  installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end

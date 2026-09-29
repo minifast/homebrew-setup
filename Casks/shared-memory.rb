@@ -7,15 +7,19 @@ cask "shared-memory" do
   desc "Configure shared memory allocation"
   homepage ""
 
-  stage_only true
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    sudo ln -sf "#{staged_path}/shared-memory.plist" /Library/LaunchDaemons/shared-memory.plist
+    sudo chown root:wheel /Library/LaunchDaemons/shared-memory.plist
+    sudo launchctl load /Library/LaunchDaemons/shared-memory.plist
+  SH
 
-  preflight_steps do
-    symlink "shared-memory.plist", "/Library/LaunchDaemons/shared-memory.plist", sudo: true, source_base: :staged_path, remove_on_uninstall: true
-    run "chown", args: ["root:wheel", "/Library/LaunchDaemons/shared-memory.plist"], sudo: true
-    run "launchctl", args: ["load", "/Library/LaunchDaemons/shared-memory.plist"], sudo: true
-  end
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    sudo launchctl unload /Library/LaunchDaemons/shared-memory.plist
+    sudo rm /Library/LaunchDaemons/shared-memory.plist
+  SH
 
-  uninstall_preflight_steps do
-    run "launchctl", args: ["unload", "/Library/LaunchDaemons/shared-memory.plist"], sudo: true
-  end
+  installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end

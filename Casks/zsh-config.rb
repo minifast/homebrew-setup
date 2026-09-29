@@ -7,14 +7,26 @@ cask "zsh-config" do
   desc "Configure zsh"
   homepage ""
 
-  stage_only true
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    cp "#{staged_path}/zshrc" ~/.zshrc.minifast
+    ZSH_SOURCE_PATTERN=$(grep "source ~/.zshrc.minifast" ~/.zshrc)
+    if [ -z "${ZSH_SOURCE_PATTERN}" ]
+    then
+      echo "source ~/.zshrc.minifast" >> ~/.zshrc
+    fi
+  SH
 
-  preflight_steps do
-    symlink "zshrc", "~/.zshrc.minifast", source_base: :staged_path, remove_on_uninstall: true
-    write_file ".zshrc", "source .zshrc.minifast", base: :user, overwrite: false, append_newline: true
-  end
+  generated_script "uninstaller.sh", content: <<~SH
+    #!/bin/sh
+    ZSH_SOURCE_PATTERN=$(grep "source ~/.zshrc.minifast" ~/.zshrc)
+    if [ -n "${ZSH_SOURCE_PATTERN}" ]
+    then
+      sed -i.bak '/source ~\\/.zshrc.minifast/d' ~/.zshrc
+    fi
+    rm -f ~/.zshrc.minifast
+  SH
 
-  uninstall_preflight_steps do
-    inreplace ".zshrc", "source .zshrc.minifast\n", ""
-  end
+  installer script: "installer.sh"
+  uninstall script: "uninstaller.sh"
 end
