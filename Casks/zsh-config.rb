@@ -10,12 +10,11 @@ cask "zsh-config" do
   stage_only true
 
   preflight_steps do
-    symlink "zshrc", ".zshrc.minifast", source_base: :source_base, target_base: :user
+    symlink "zshrc", "~/.zshrc.minifast", source_base: :staged_path, remove_on_uninstall: true
     write_file ".zshrc", "source .zshrc.minifast", base: :user, overwrite: false, append_newline: true
   end
 
   uninstall_preflight_steps do
     inreplace ".zshrc", "source .zshrc.minifast\n", ""
-    remove "{{user}}/.zshrc.minifast"
   end
 end

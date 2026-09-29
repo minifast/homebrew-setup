@@ -7,15 +7,13 @@ cask "git-config" do
   desc "Configure git"
   homepage ""
 
-  stage_only true
-
   preflight_steps do
-    symlink "gitconfig", ".gitconfig.minifast", source_base: :source_base, target_base: :user
-    run "git", args: ["config", "set", "--global", "include.path", "{{user}}/.gitconfig.minifast"]
+    symlink "gitconfig", "~/.gitconfig.minifast", source_base: :staged_path, remove_on_uninstall: true
   end
 
-  uninstall_preflight_steps do
-    run "git", args: ["config", "unset", "--global", "include.path"]
-    remove "{{user}}/.gitconfig.minifast"
-  end
+  generated_script "installer.sh", content: <<~SH
+    #!/bin/sh
+    git config set --global include.path ~/.gitconfig.minifast
+  SH
+  installer script: "installer.sh"
 end

@@ -10,10 +10,6 @@ cask "git-duet-config" do
   stage_only true
 
   preflight_steps do
-    symlink "git-authors", ".authors", source_base: :source_base, target_base: :user
-  end
-
-  uninstall_preflight_steps do
-    remove "{{user}}/.git-authors"
+    symlink "git-authors", "~/.git-authors", source_base: :staged_path, remove_on_uninstall: true
   end
 end

@@ -10,10 +10,6 @@ cask "iterm2-config" do
   stage_only true
 
   preflight_steps do
-    symlink "iterm2.plist", "Library/Preferences/com.googlecode.iterm2.plist", source_base: :source_base, target_base: :user
-  end
-
-  uninstall_preflight_steps do
-    remove "{{user}}/Library/Preferences/com.googlecode.iterm2.plist"
+    symlink "iterm2.plist", "~/Library/Preferences/com.googlecode.iterm2.plist", source_base: :staged_path, remove_on_uninstall: true
   end
 end

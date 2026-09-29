@@ -10,10 +10,6 @@ cask "tool-versions" do
   stage_only true
 
   preflight_steps do
-    symlink "tool-versions", ".tool-versions", source_base: :source_base, target_base: :user
-  end
-
-  uninstall_preflight_steps do
-    remove ".tool-versions", base: :user
+    symlink "tool-versions", "~/.tool-versions", source_base: :staged_path, remove_on_uninstall: true
   end
 end

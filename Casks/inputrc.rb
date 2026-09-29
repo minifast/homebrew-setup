@@ -10,10 +10,6 @@ cask "inputrc" do
   stage_only true
 
   preflight_steps do
-    symlink "inputrc", ".inputrc", source_base: :source_base, target_base: :user
-  end
-
-  uninstall_preflight_steps do
-    remove "{{user}}/.inputrc"
+    symlink "inputrc", "~/.inputrc", source_base: :staged_path, remove_on_uninstall: true
   end
 end

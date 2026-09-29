@@ -10,13 +10,12 @@ cask "shared-memory" do
   stage_only true
 
   preflight_steps do
-    symlink "shared-memory.plist", "shared-memory.plist", source_base: :source_base, target_base: "/Library/LaunchDaemons"
-    set_ownership "shared-memory.plist", user: "root", group: "wheel", base: "/Library/LaunchDaemons"
-    run "sudo", args: ["launchctl", "load", "/Library/LaunchDaemons/shared-memory.plist"]
+    symlink "shared-memory.plist", "/Library/LaunchDaemons/shared-memory.plist", sudo: true, source_base: :staged_path, remove_on_uninstall: true
+    run "chown", args: ["root:wheel", "/Library/LaunchDaemons/shared-memory.plist"], sudo: true
+    run "launchctl", args: ["load", "/Library/LaunchDaemons/shared-memory.plist"], sudo: true
   end
 
   uninstall_preflight_steps do
-    run "sudo", args: ["launchctl", "unload", "/Library/LaunchDaemons/shared-memory.plist"]
-    remove "shared-memory.plist", base: "/Library/LaunchDaemons"
+    run "launchctl", args: ["unload", "/Library/LaunchDaemons/shared-memory.plist"], sudo: true
   end
 end

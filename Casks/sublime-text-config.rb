@@ -10,11 +10,7 @@ cask "sublime-text-config" do
   stage_only true
 
   preflight_steps do
-    mkdir_p "Library/Application Support/Sublime Text/Packages/User", base: :user
-    symlink "preferences.sublime-settings", "Library/Application Support/Sublime Text/Packages/User/preferences.sublime-settings", source_base: :source_base, target_base: :user
-  end
-
-  uninstall_preflight_steps do
-    remove "Library/Application Support/Sublime Text/Packages/User/preferences.sublime-settings", base: :user
+    mkdir_p "~/Library/Application Support/Sublime Text/Packages/User"
+    symlink "preferences.sublime-settings", "~/Library/Application Support/Sublime Text/Packages/User/preferences.sublime-settings", source_base: :staged_path, remove_on_uninstall: true
   end
 end

@@ -10,11 +10,7 @@ cask "starship-config" do
   stage_only true
 
   preflight_steps do
-    mkdir_p ".config", base: :user
-    symlink "starship.toml", ".config/starship.toml", source_base: :source_base, target_base: :user
-  end
-
-  uninstall_preflight_steps do
-    remove "{{user}}/.config/starship.toml"
+    mkdir_p "~/.config"
+    symlink "starship.toml", "~/.config/starship.toml", source_base: :staged_path, remove_on_uninstall: true
   end
 end
